@@ -1,107 +1,116 @@
-## snake_game_assignment
-# Overview
-This project implements the classic Snake game on an FPGA (specifically targeting the Basys3 board) using Verilog HDL. The game features:
+# 🐍 Snake Game on FPGA (Basys3)
 
-VGA output (640x480 resolution)
+## 🔍 Overview
+This project implements the classic **Snake Game** on an FPGA development board (specifically, the **Basys3** by Digilent) using **Verilog HDL**. It provides a complete graphical experience with real-time input controls, collision detection, and food generation—all rendered using **VGA output**.
 
-Grid-based movement (20x20 pixel cells)
+---
 
-Score tracking
+## 🎮 Game Features
 
-Collision detection (with walls and self)
+- **VGA Display:** 640x480 resolution @ 60Hz refresh rate  
+- **Grid-based Movement:** 32x24 grid using 20x20 pixel cells  
+- **Control Interface:**
+  - Arrow buttons (Up/Down/Left/Right) to move the snake
+  - Center button to reset the game  
+- **Gameplay Mechanics:**
+  - Snake grows upon eating food
+  - Each food item adds **+10 points**
+  - Game ends on self-collision
+  - **Wraparound** support: snake can pass through screen edges
 
-Random food generation
+---
 
-# Features
-VGA Display: 640x480 resolution with 60Hz refresh rate
+## 🔧 Hardware Requirements
 
-Game Controls:
+- ✅ **Basys3 FPGA Board** (or compatible board with VGA output)
+- ✅ **VGA Monitor** (640x480 resolution)
+- ✅ **5 Onboard Push Buttons** for directional control and reset
 
-Up/Down/Left/Right buttons for snake direction control
+---
 
-Center button for reset
+## 🧠 Verilog Design Overview
 
-# Game Mechanics:
+### 📦 Main Module: `snake_game.v`
+Handles core logic:
+- VGA signal timing
+- Snake movement
+- Grid collision detection
+- Score tracking
+- Game state transitions
+- Random food generation (via LFSR)
 
-Snake grows when eating food
+### 📐 Design Parameters
 
-Score increases by 10 points per food
+| Parameter         | Description                              |
+|------------------|------------------------------------------|
+| `GRID_SIZE`       | 20 pixels per cell                       |
+| `GRID_WIDTH`      | 32 columns (640 / 20)                    |
+| `GRID_HEIGHT`     | 24 rows (480 / 20)                       |
+| `INITIAL_LENGTH`  | 3 snake segments                         |
+| `MAX_SNAKE_LENGTH`| 64 segments                              |
+| `GAME_SPEED`      | 10 Hz (100 ms per move)                  |
 
-Game over on self-collision
+---
 
-Wraparound movement (snake can go through walls)
+## 🎨 Color Scheme (12-bit RGB)
 
-# Hardware Requirements
-Basys3 FPGA board (or compatible)
+| Element       | Color Name | RGB (Hex) |
+|---------------|------------|-----------|
+| Snake         | Green      | `12'h0F0` |
+| Food          | Red        | `12'hF00` |
+| Background    | Black      | `12'h000` |
+| Grid Border   | Gray       | `12'h888` |
 
-VGA display
+---
 
-Push buttons for control
+## ⌨️ Controls Mapping
 
-Verilog Modules
-# The main module snake_game handles:
+| Button | Direction | Input Signal |
+|--------|-----------|--------------|
+| BTN0   | Up        | `ctrl[0]`    |
+| BTN1   | Down      | `ctrl[1]`    |
+| BTN2   | Left      | `ctrl[2]`    |
+| BTN3   | Right     | `ctrl[3]`    |
+| BTNC   | Reset     | `reset`      |
 
-VGA timing generation
+---
 
-Game state management
+## 🚀 Setup & Installation
 
-Snake movement logic
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/snake_game_fpga.git
+   cd snake_game_fpga
+   ```
+2. Open the project in **Xilinx Vivado** (or compatible FPGA toolchain).
+3. Set the **target board** to **Basys3**.
+4. Synthesize and implement the design.
+5. Connect the VGA cable and configure button inputs.
+6. Program the FPGA and enjoy the game!
 
-Collision detection
+---
 
-Score tracking
+## 🧩 Future Improvements
 
-Food generation using LFSR (Linear Feedback Shift Register)
+- [ ] Game **Start/Pause** toggle
+- [ ] Multiple **Difficulty Levels** (increase speed)
+- [ ] Add **Sound Effects** using Pmod Audio
+- [ ] Real-time **Score Display** on VGA
+- [ ] **High Score** Tracking with persistent memory
 
-# Parameters:
-GRID_SIZE: 20 pixels (results in 32x24 grid)
+---
 
-INITIAL_LENGTH: 3 segments
+## 📜 License
 
-MAX_SNAKE_LENGTH: 64 segments
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).  
+Feel free to use, modify, and distribute it freely.
 
-GAME_SPEED: 10Hz (100ms per move)
+---
 
-# Color Scheme
-Snake: Green (12'h0F0)
+## 🙌 Acknowledgments
 
-Food: Red (12'hF00)
+- Inspired by the original Snake game from Nokia phones.
+- Developed as part of an academic project on FPGA-based game design.
 
-Background: Black (12'h000)
-
-Border: Gray (12'h888)
-
-# Installation
-Clone this repository
-
-Open in Vivado (or compatible FPGA toolchain)
-
-Set Basys3 as target board
-
-Synthesize and program the FPGA
-
-Controls
-ctrl[0]: Up
-
-ctrl[1]: Down
-
-ctrl[2]: Left
-
-ctrl[3]: Right
-
-reset: Center button (resets game)
-
-# Future Improvements
-Add game start/pause functionality
-
-Implement difficulty levels (variable speed)
-
-Add sound effects
-
-Display score on screen
-
-High score tracking
-
-# License
-This project is open-source and available under the MIT License.
+---
 
